@@ -17,20 +17,20 @@ Only needs to be done once.
 ### To Run (for example, node 1)
 This will ultimately run the java Main class as an application.
 
-`docker run -it --cap-add=NET_ADMIN --net nodenet --ip 172.18.0.21 javaapptest 1 `
+`docker run -it -p 8080:8080 --cap-add=NET_ADMIN --net nodenet --ip 172.18.0.21 javaapptest 1 `
 
 ### To Run (node 2):
-`docker run -it --cap-add=NET_ADMIN --net nodenet --ip 172.18.0.22 javaapptest 2 `
+`docker run -it -p 8081:8080 --cap-add=NET_ADMIN --net nodenet --ip 172.18.0.22 javaapptest 2 `
 
 ### To Block Nodes 2 and 3 on Node 1
 Using the block=ip http query parameter.
 
-`curl "http://172.18.0.21:8080/?block=172.18.0.22&block=172.18.0.23" `
+`curl "http://localhost:8080/?block=172.18.0.22&block=172.18.0.23" `
 
 ### To unblock Node 2 on Node 1
 Using the unblock=ip http query parameter.
 
-`curl "http://172.18.0.21:8080/?unblock=172.18.0.22" `
+`curl "http://localhost:8080/?unblock=172.18.0.22" `
 
 Note that multiple commands can be appended on one URL.
 

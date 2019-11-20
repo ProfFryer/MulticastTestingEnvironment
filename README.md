@@ -32,6 +32,12 @@ Using the unblock=ip http query parameter.
 
 `curl "http://localhost:8080/?unblock=172.18.0.22" `
 
+### To randomly drop 10% of incoming packets to Node 1
+Using the indrop=p http query parameter.  Note that these are incoming packets -- not outgoing.  IPTABLES notifies higher layers when outgoing packets are dropped invalidating the testing.
+
+`curl "http://localhost:8080/?indrop=0.1" `
+
+
 Note that multiple commands can be appended on one URL.
 
 # ENJOY!

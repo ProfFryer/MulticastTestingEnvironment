@@ -24,6 +24,26 @@ function block(ip) {
   return msg + '\n';
 }
 
+// Block a given IP.  Should only be called once
+// or call unblock the same number of times that you called this!
+function indrop(percentage) {
+  var msg = 'error';
+  var cmd = 'iptables -A INPUT -i eth0 -m statistic --mode random --probability '+percentage+' -j DROP';
+  console.log('Running: ' + cmd + '\n');
+  msg = exec(cmd);
+  return msg + '\n';
+}
+
+// Block a given IP.  Should only be called once
+// or call unblock the same number of times that you called this!
+function unindrop(percentage) {
+  var msg = 'error';
+  var cmd = 'iptables -D INPUT -i eth0 -m statistic --mode random --probability '+percentage+' -j DROP';
+  console.log('Running: ' + cmd + '\n');
+  msg = exec(cmd);
+  return msg + '\n';
+}
+
 // Configure our HTTP server running on port 8080
 // The url will be something like http://172.18.0.21:8080/?unblock=172.18.0.23
 var server = http.createServer(function (request, response) {
@@ -65,6 +85,40 @@ var server = http.createServer(function (request, response) {
         }
       }
     }
+
+    // find and block any requested IPs
+    if (queryData.indrop) {
+      var droptype = typeof queryData.indrop;
+
+      // Have to check if it's only one or many
+      if ((droptype === 'string') || (droptype === 'number')){
+        var bret = indrop(queryData.indrop);  
+        response.write('Results: '+bret);
+        response.write('Some incoming packets are dropped with probability p=' + queryData.indrop + ' \n');
+      } 
+      else {
+        response.write('Error -- Only one drop command allowed! '+droptype);
+      }
+    }
+
+    // find and block any requested IPs
+    if (queryData.unindrop) {
+      var droptype = typeof queryData.unindrop;
+
+      // Have to check if it's only one or many
+      if ((droptype === 'string') || (droptype === 'number')){
+        var bret = unindrop(queryData.unindrop);  
+        response.write('Results: '+bret);
+        response.write('Stopped dropping incoming at p=' + queryData.unindrop + '\n');
+      } 
+      else {
+        response.write('Error -- Only one undrop command allowed!');
+      }
+    }
+
+
+
+
   } catch (err) {
     response.write('Got Error!!!\n');
   }

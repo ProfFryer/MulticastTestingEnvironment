@@ -32,18 +32,22 @@ public class UdpMulticastClient implements Runnable {
 
       
       while(true){
-         DatagramPacket packet=new DatagramPacket(buffer,buffer.length);
+        try {
+          DatagramPacket packet=new DatagramPacket(buffer,buffer.length);
 
-	 // blocking call.... waits for next packet
-         socket.receive(packet);
-         String msg=new String(packet.getData(),packet.getOffset(),packet.getLength());
-         System.out.println("[Multicast UDP message received from "+packet.getAddress()+"] "+msg);
+	  // blocking call.... waits for next packet
+          socket.receive(packet);
+          String msg=new String(packet.getData(),packet.getOffset(),packet.getLength());
+          System.out.println("[Multicast UDP message received from "+packet.getAddress()+"] "+msg);
 
-         // give us a way out if needed
-         if("EXIT".equals(msg)) {
+          // give us a way out if needed
+          if("EXIT".equals(msg)) {
             System.out.println("No more messages. Exiting : "+msg);
             break;
-         }
+          }
+        }catch(IOException ex){
+          ex.printStackTrace();
+        }
       }
 
       //close up ship

@@ -41,15 +41,15 @@ public class UdpMulticastSender implements Runnable  {
    // the thread runnable.  Starts sending packets every 500ms.
    @Override
    public void run(){
-      try {
-        while (true)
-        {
+      while (true)
+      {
+        try {
           // set our message as "Node 1" (or applicable number)
           sendUdpMessage("Node " + node);
           Thread.sleep(500);
+        }catch(Exception ex){
+          ex.printStackTrace();
         }
-      }catch(Exception ex){
-        ex.printStackTrace();
       }
    }
 }

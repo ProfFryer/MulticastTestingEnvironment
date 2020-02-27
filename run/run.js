@@ -24,8 +24,8 @@ function block(ip) {
   return msg + '\n';
 }
 
-// Block a given IP.  Should only be called once
-// or call unblock the same number of times that you called this!
+// Block a percentage of packets coming in.  Should only be called once
+// or call unindrop the same number of times that you called this!
 function indrop(percentage) {
   var msg = 'error';
   var cmd = 'iptables -A INPUT -i eth0 -m statistic --mode random --probability '+percentage+' -j DROP';
@@ -34,8 +34,7 @@ function indrop(percentage) {
   return msg + '\n';
 }
 
-// Block a given IP.  Should only be called once
-// or call unblock the same number of times that you called this!
+// Undo the percentage drop.  Should be called the same number of times that you called indrop!
 function unindrop(percentage) {
   var msg = 'error';
   var cmd = 'iptables -D INPUT -i eth0 -m statistic --mode random --probability '+percentage+' -j DROP';

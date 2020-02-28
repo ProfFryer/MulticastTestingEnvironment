@@ -1,14 +1,12 @@
 # start from the most recent opensource Java Development Kit.
 FROM openjdk
 
-# Install the firewall
-RUN yum -y install iptables
+# Install the repository for NodeJS
+RUN yum -y install oracle-nodejs-release-el7
 
-# Install some helpful networking tools
-RUN yum -y install net-tools
-
-# Install a simple web server
-RUN yum -y install nodejs
+# Install the firewall, some helpful networking tools, and NodeJS for a simple
+# web server
+RUN yum -y install iptables net-tools nodejs
 
 # Copy everything to /app and make that our working directory
 COPY . /app

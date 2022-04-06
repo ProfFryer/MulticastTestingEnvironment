@@ -43,6 +43,15 @@ function unindrop(percentage) {
   return msg + '\n';
 }
 
+// Randomly delay all packets
+function randomDelay(milli) {
+  var msg = 'error';
+  var cmd = 'tc qdisc change dev eth0 root netem delay 1000ms '+milli+'ms distribution normal';
+  console.log('Running: ' + cmd + '\n');
+  msg = exec(cmd);
+  return msg + '\n';
+}
+
 // Configure our HTTP server running on port 8080
 // The url will be something like http://172.18.0.21:8080/?unblock=172.18.0.23
 var server = http.createServer(function (request, response) {
@@ -116,6 +125,12 @@ var server = http.createServer(function (request, response) {
     }
 
 
+    // add delay
+    if (queryData.delay) {
+        var bret = randomDelay(queryData.delay);  
+        response.write('Results: '+bret);
+        response.write('GoodBye ' + queryData.block + '\n');
+      }
 
 
   } catch (err) {

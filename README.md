@@ -37,6 +37,10 @@ Using the indrop=p http query parameter.  Note that these are incoming packets -
 
 `curl "http://localhost:8080/?indrop=0.1" `
 
+### To randomly delay packets from 0 to 2 seconds
+Using the delay=ms http query parameter.  Note that these are outgoing packets -- not incoming.  Currently once the delay has started, it can not be undone.  Hopefully future versions will fix this.  
+
+`curl "http://localhost:8080/?delay=1000" `
 
 Note that multiple commands can be appended on one URL.
 

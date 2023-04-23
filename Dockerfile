@@ -4,7 +4,7 @@ FROM ubuntu
 # Install the firewall, some helpful networking tools, and NodeJS for a simple
 # web server
 RUN apt-get update
-RUN apt-get -y install iptables net-tools iproute2 nodejs openjdk-11-jdk 
+RUN apt-get -y install iptables net-tools iproute2 nodejs openjdk-17-jdk 
 
 # Copy everything to /app and make that our working directory
 COPY . /app
